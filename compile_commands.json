@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/dimonchik/Programs/C++/Notes/build",
+  "command": "/usr/bin/c++   -std=gnu++20 -o CMakeFiles/NotifyService.dir/utils/SqlException.cpp.o -c /home/dimonchik/Programs/C++/Notes/utils/SqlException.cpp",
+  "file": "/home/dimonchik/Programs/C++/Notes/utils/SqlException.cpp",
+  "output": "CMakeFiles/NotifyService.dir/utils/SqlException.cpp.o"
+},
+{
+  "directory": "/home/dimonchik/Programs/C++/Notes/build",
+  "command": "/usr/bin/c++   -std=gnu++20 -o CMakeFiles/NotifyService.dir/Note.cpp.o -c /home/dimonchik/Programs/C++/Notes/Note.cpp",
+  "file": "/home/dimonchik/Programs/C++/Notes/Note.cpp",
+  "output": "CMakeFiles/NotifyService.dir/Note.cpp.o"
+},
+{
+  "directory": "/home/dimonchik/Programs/C++/Notes/build",
+  "command": "/usr/bin/c++   -std=gnu++20 -o CMakeFiles/NotifyService.dir/NotificationRepository.cpp.o -c /home/dimonchik/Programs/C++/Notes/NotificationRepository.cpp",
+  "file": "/home/dimonchik/Programs/C++/Notes/NotificationRepository.cpp",
+  "output": "CMakeFiles/NotifyService.dir/NotificationRepository.cpp.o"
+},
+{
+  "directory": "/home/dimonchik/Programs/C++/Notes/build",
+  "command": "/usr/bin/c++   -std=gnu++20 -o CMakeFiles/NotifyService.dir/main.cpp.o -c /home/dimonchik/Programs/C++/Notes/main.cpp",
+  "file": "/home/dimonchik/Programs/C++/Notes/main.cpp",
+  "output": "CMakeFiles/NotifyService.dir/main.cpp.o"
+}
+]
