@@ -15,12 +15,17 @@ set(HEADERS utils/SqlException.h
     Note.h
     INotificationRepository.h
     NotificationRepository.h
+    TimerService.h
+    INotifier.h
+    GNotifier.h
 )
 
 add_executable(${PROJECT_NAME}
     utils/SqlException.cpp
     Note.cpp
     NotificationRepository.cpp
+    TimerService.cpp
+    GNotifier.cpp
     main.cpp
 )
 
