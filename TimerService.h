@@ -3,7 +3,6 @@
 #include "INotificationRepository.h"
 #include "INotifier.h"
 
-#include <string>
 #include <atomic>
 #include <mutex>
 #include <chrono>
@@ -17,11 +16,8 @@ using namespace std::chrono;
 namespace notifications
 {
 
-//using NotificateCallback = std::function<void(INotificationRepository *, INotifier *)>;
-using NotificateCallback = std::function<void(const std::string&, int)>;
-
-//using NotificateArgs = std::tuple<INotificationRepository *, INotifier *>;
-using NotificateArgs = std::tuple<std::string, int>;
+using NotificateCallback = std::function<void(int, INotifier *)>;
+using NotificateArgs = std::tuple<int, INotifier *>;
 
 namespace time 
 {

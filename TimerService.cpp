@@ -10,6 +10,7 @@ TimerService::TimerService(std::size_t time,  NotificateCallback func, Notificat
             while(true && m_timerRunCondition) {
                 auto currentTime = std::chrono::system_clock::now();
                 if(duration_cast<milliseconds>(currentTime - m_start) == m_time) {
+                    // TODO: подумать над асинхронным запуском колбека, чтобы не стопить таймер через мьютекс
                     m_callback(std::get<0>(m_args), std::get<1>(m_args));
                     m_start = currentTime;
                 }

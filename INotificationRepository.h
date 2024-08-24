@@ -15,6 +15,7 @@ public:
     virtual void saveNotification(const Notification &note) = 0;
     virtual void updateNotification(unsigned int id, const Notification &note) = 0;
     virtual void deleteNotification(unsigned int id) = 0;
+    virtual ~INotificationRepository() = default;
     
 protected:
     std::vector<Notification> m_notifications;

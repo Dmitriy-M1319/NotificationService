@@ -8,5 +8,6 @@ namespace notifications
 class INotifier {
 public:
     virtual void notify(const Notification&) = 0;
+    virtual ~INotifier() = default;
 };
 }
