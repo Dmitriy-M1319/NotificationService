@@ -18,6 +18,7 @@ set(HEADERS utils/SqlException.h
     TimerService.h
     INotifier.h
     GNotifier.h
+    MessageReceiver.h
 )
 
 add_executable(${PROJECT_NAME}
@@ -26,8 +27,12 @@ add_executable(${PROJECT_NAME}
     NotificationRepository.cpp
     TimerService.cpp
     GNotifier.cpp
+    MessageReceiver.cpp
     main.cpp
 )
 
+add_executable(sender sender.cpp)
+
 target_link_libraries(${PROJECT_NAME} ${BOOST_LIBRARIES} ${SQLITE3_LIBRARIES} vsqlitepp)
+target_link_libraries(sender ${BOOST_LIBRARIES})
 

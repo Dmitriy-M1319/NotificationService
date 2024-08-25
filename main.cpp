@@ -1,8 +1,10 @@
 #include "INotificationRepository.h"
+#include "MessageReceiver.h"
 #include "INotifier.h"
 #include "TimerService.h"
 #include "GNotifier.h"
 
+#include <iostream>
 #include <boost/date_time/posix_time/time_parsers.hpp>
 #include <thread>
 #include <memory>
@@ -24,8 +26,19 @@ void test_timer()
     timer.stop();
 }
 
+void test_receiver()
+{
+    boost::interprocess::message_queue::remove("message_queue");
+    notifications::communication::MessageReceiver receiver([](notifications::INotificationRepository *r){},
+            nullptr);
+    int a;
+    std::cin >> a;
+    receiver.stopReceiving();
+}
+
 int main(int argc, const char *argv[])
 {
-    test_timer();
+    //test_timer();
+    test_receiver();
     return 0;
 }
