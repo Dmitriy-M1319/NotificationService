@@ -14,9 +14,9 @@ public:
     ~NotificationRepository();
     const std::vector<Notification>& activeNotifications() override;
     Notification& getNotificationById(unsigned int id) override;
+    void reloadRepository() override;
     void saveNotification(const Notification &note) override;
     void saveNotificationAsync(const Notification &note) ;
-
     void updateNotification(unsigned int id, const Notification &note) override;
     void updateNotificationAsync(unsigned int id, const Notification &note);
 

@@ -36,17 +36,19 @@ NotificationRepository::NotificationRepository(const std::string& connString)
 NotificationRepository::~NotificationRepository()
 {
     // Сохраняем все при отключении компьютера или выхода из сеанса ОС
-    constexpr auto updateQueryTemplate = "UPDATE notifications SET text=\'{}\', not_date=\'{}\' WHERE id={};";
-    constexpr auto insertQueryTemplate = "INSERT INTO notifications VALUES(\'{}\'. \'{}\');";
+    constexpr auto updateQueryTemplate = "UPDATE notifications SET text=\'{}\', date=\'{}\' WHERE id={};";
+    constexpr auto insertQueryTemplate = "INSERT INTO notifications(text, date) VALUES(\'{}\', \'{}\');";
 
     try {
         for(const Notification& note: m_notifications) {
             if(note.id()) {
-                sqlite::execute(*m_connection, 
-                    std::format(updateQueryTemplate, note.text(), boost::posix_time::to_simple_string(note.notificationDate()), note.id()));
+                sqlite::execute upd(*m_connection, 
+                    std::format(updateQueryTemplate, note.text(), boost::posix_time::to_iso_string(note.notificationDate()), note.id()));
+                upd();
             } else {
-                sqlite::execute(*m_connection, 
-                    std::format(insertQueryTemplate, note.text(), boost::posix_time::to_simple_string(note.notificationDate())));
+                auto sql = std::format(insertQueryTemplate, note.text(), boost::posix_time::to_iso_string(note.notificationDate()));
+                sqlite::execute ins(*m_connection, sql);
+                ins();
             }
         }
     } catch (...) {
@@ -62,11 +64,11 @@ const std::vector<Notification>& NotificationRepository::activeNotifications()
     if(!m_notifications.empty())
         return m_notifications;
 
-    const char *query = "SELECT text, not_date FROM notifications WHERE datetime(not_date) > datetime('now');";
+    const char *query = "SELECT id, text, date FROM notifications WHERE date > strftime(\'%Y%m%dT%H%M%S\', datetime(CURRENT_TIMESTAMP, 'localtime'))";
     sqlite::query q(*m_connection, query);
     boost::shared_ptr<sqlite::result> cursor = q.get_result(); 
     while(cursor->next_row()) {
-        m_notifications.emplace_back(cursor->get_string(1), time_from_string(cursor->get_string(2)));
+        m_notifications.emplace_back(cursor->get_string(1), from_iso_string(cursor->get_string(2)), cursor->get_int(0));
     }
 
     return m_notifications;
@@ -74,11 +76,17 @@ const std::vector<Notification>& NotificationRepository::activeNotifications()
 
 Notification& NotificationRepository::getNotificationById(unsigned int id)
 {
-    sqlite::query q(*m_connection, std::format("SELECT text, not_date FROM notifications WHERE id={};", id));
+    sqlite::query q(*m_connection, std::format("SELECT id, text, date FROM notifications WHERE id={};", id));
     boost::shared_ptr<sqlite::result> cursor = q.get_result(); 
     if(cursor->next_row())
-        m_currNotification = Notification(cursor->get_string(1), time_from_string(cursor->get_string(2)));
+        m_currNotification = Notification(cursor->get_string(1), from_iso_string(cursor->get_string(2)), cursor->get_int(0));
     return m_currNotification;
+}
+
+void NotificationRepository::reloadRepository()
+{
+    m_notifications.clear();
+    m_notifications = activeNotifications();
 }
 
 void NotificationRepository::saveNotification(const Notification &note)
@@ -105,5 +113,7 @@ void NotificationRepository::deleteNotification(unsigned int id)
    if(updated == m_notifications.end())
        throw std::range_error{"Notification with this id not found"};
 
-    m_notifications.erase(updated);
+   sqlite::execute del(*m_connection, std::format("DELETE FROM notifications WHERE id={};", id));
+   del();
+   m_notifications.erase(updated);
 }

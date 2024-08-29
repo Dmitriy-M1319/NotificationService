@@ -16,8 +16,8 @@ using namespace std::chrono;
 namespace notifications
 {
 
-using NotificateCallback = std::function<void(int, INotifier *)>;
-using NotificateArgs = std::tuple<int, INotifier *>;
+using NotificateCallback = std::function<void(INotificationRepository *, INotifier *)>;
+using NotificateArgs = std::tuple<INotificationRepository *, INotifier *>;
 
 namespace time 
 {

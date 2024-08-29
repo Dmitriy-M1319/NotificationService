@@ -12,6 +12,7 @@ class INotificationRepository
 public:
     virtual const std::vector<Notification>& activeNotifications() = 0;
     virtual Notification& getNotificationById(unsigned int id)  = 0;
+    virtual void reloadRepository() = 0;
     virtual void saveNotification(const Notification &note) = 0;
     virtual void updateNotification(unsigned int id, const Notification &note) = 0;
     virtual void deleteNotification(unsigned int id) = 0;
