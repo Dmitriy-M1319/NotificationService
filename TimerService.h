@@ -26,10 +26,11 @@ class TimerService
 {
 public:
     TimerService(std::size_t time,  NotificateCallback func, NotificateArgs args);
+    ~TimerService();
     void start();
     void stop();
 private:
-    milliseconds m_time;
+    std::chrono::milliseconds m_time;
     std::mutex m_mtx;
     std::thread m_timerThread;
     std::atomic<bool> m_timerRunCondition = true;

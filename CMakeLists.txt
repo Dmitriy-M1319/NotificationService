@@ -8,6 +8,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 find_package(Boost)
 find_package(SQLite3)
+find_package(nlohmann_json)
 
 include_directories (SYSTEM ${Boost_INCLUDE_DIR})
 
@@ -18,6 +19,8 @@ set(HEADERS utils/SqlException.h
     TimerService.h
     INotifier.h
     GNotifier.h
+    ISerializer.h
+    Serializer.h
     MessageReceiver.h
 )
 
@@ -27,12 +30,18 @@ add_executable(${PROJECT_NAME}
     NotificationRepository.cpp
     TimerService.cpp
     GNotifier.cpp
+    Serializer.cpp
     MessageReceiver.cpp
     main.cpp
 )
 
 add_executable(sender sender.cpp)
 
-target_link_libraries(${PROJECT_NAME} ${BOOST_LIBRARIES} ${SQLITE3_LIBRARIES} vsqlitepp)
+target_link_libraries(${PROJECT_NAME} 
+    ${BOOST_LIBRARIES} 
+    ${SQLITE3_LIBRARIES} 
+    vsqlitepp
+    nlohmann_json::nlohmann_json
+)
 target_link_libraries(sender ${BOOST_LIBRARIES})
 

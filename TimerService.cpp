@@ -18,6 +18,11 @@ TimerService::TimerService(std::size_t time,  NotificateCallback func, Notificat
             m_mtx.unlock();
         }) { m_mtx.lock(); }
 
+TimerService::~TimerService() {
+    if(m_timerRunCondition)
+        stop();
+}
+
 void TimerService::start() {
     m_mtx.unlock();
 }
